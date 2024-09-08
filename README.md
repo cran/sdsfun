@@ -6,12 +6,11 @@
 <!-- badges: start -->
 
 [![CRAN](https://www.r-pkg.org/badges/version/sdsfun)](https://CRAN.R-project.org/package=sdsfun)
-[![r-universe](https://spatlyu.r-universe.dev/badges/sdsfun)](https://spatlyu.r-universe.dev/sdsfun)
+[![Downloads](https://cranlogs.r-pkg.org/badges/sdsfun)](https://CRAN.R-project.org/package=sdsfun)
+[![r-universe](https://stscl.r-universe.dev/badges/sdsfun)](https://stscl.r-universe.dev/sdsfun)
 <!-- badges: end -->
 
-The goal of **sdsfun** is to provide miscellaneous functions that
-summarize common operations of R packages (such as sf and terra
-packages) related to spatial data science.
+**Spatial Data Science Complementary Features**
 
 ## Installation
 
@@ -22,21 +21,21 @@ install.packages("sdsfun")
 ```
 
 - Install development binary version from
-  [r-universe](https://spatlyu.r-universe.dev/sdsfun) with:
+  [r-universe](https://stscl.r-universe.dev/sdsfun) with:
 
 ``` r
 install.packages('sdsfun',
-                 repos = c("https://spatlyu.r-universe.dev",
-                           "https://cran.rstudio.com/"),
+                 repos = c("https://stscl.r-universe.dev",
+                           "https://cloud.r-project.org"),
                  dep = TRUE)
 ```
 
 - Install development source version from
-  [GitHub](https://github.com/SpatLyu/sdsfun) with:
+  [GitHub](https://github.com/stscl/sdsfun) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("SpatLyu/sdsfun",
+devtools::install_github("stscl/sdsfun",
                          build_vignettes = TRUE,
                          dep = TRUE)
 ```

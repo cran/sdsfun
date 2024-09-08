@@ -23,12 +23,16 @@ spdep_distance_swm(
 \item{k}{(optional) The number of nearest neighbours. Default is \code{NULL}. Only useful
 when \code{kernel} is provided.}
 
-\item{bandwidth}{(optional) The bandwidth, default is \code{NULL}.}
+\item{bandwidth}{(optional) The bandwidth, default is \code{NULL}. When the spatial reference
+of sf object is the geographical coordinate system, the unit of \code{bandwidth} is \code{km}. The
+unit used in the projection coordinate system are consistent with those used in the sf
+object coordinate system.}
 
 \item{power}{(optional) Default is \code{1}. Useful when \code{kernel} is not provided.}
 
 \item{style}{(optional) \code{style} can take values \code{W}, \code{B}, \code{C}, and \code{S}. More to see
-\code{spdep::nb2mat()}. Default is \code{W}.}
+\code{spdep::nb2mat()}. Default is \code{W}. For spatial weights based on distance functions,
+a style of \code{B} means using the original value of the calculated distance function.}
 
 \item{zero.policy}{(optional)  if \code{FALSE} stop with error for any empty neighbour sets,
 if \code{TRUE} permit the weights list to be formed with zero-length weights vectors. Default
@@ -59,10 +63,8 @@ For the equation above, \eqn{z = d_{ij} / h_i}
 where \eqn{h_i} is the bandwidth
 }
 \note{
-When \code{kernel} is setting, using distance weight based on kernel function.
-
-For spatial weights based on distance functions, a style of B means using the
-original value of the calculated distance function.
+When \code{kernel} is setting, using distance weight based on kernel function, Otherwise
+the inverse distance weight will be used.
 }
 \examples{
 library(sf)
@@ -70,6 +72,7 @@ pts = read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
 
 wt1 = spdep_distance_swm(pts, style = 'B')
 wt2 = spdep_distance_swm(pts, kernel = 'gaussian')
-wt2 = spdep_distance_swm(pts, k = 3, kernel = 'gaussian')
+wt3 = spdep_distance_swm(pts, k = 3, kernel = 'gaussian')
+wt4 = spdep_distance_swm(pts, k = 3, kernel = 'gaussian', bandwidth = 10000)
 
 }
