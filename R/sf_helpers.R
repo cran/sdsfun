@@ -48,7 +48,7 @@ sf_geometry_type = \(sfj){
 #'
 #' @param sfj An `sf` object.
 #'
-#' @return An `sf` object of polygon geometry type.
+#' @return An `sf` object of polygon geometry type or can be converted to this by `sf::st_as_sf()`.
 #' @export
 #'
 #' @examples
@@ -64,6 +64,10 @@ sf_geometry_type = \(sfj){
 #'   theme_void()
 #'
 sf_voronoi_diagram = \(sfj){
+  if (!inherits(sfj,'sf')){
+    sfj = sf::st_as_sf(sfj)
+  }
+
   if (!(sf_geometry_type(sfj) %in% c('point','multipoint'))){
     stop("Only (multi-)point vector objects are supported to generate voronoi diagram")
   }
@@ -84,11 +88,11 @@ sf_voronoi_diagram = \(sfj){
 
 #' @title generates distance matrix
 #' @description
-#' Generates distance matrix) for sf object
+#' Generates distance matrix for sf object
 #'
-#' @param sfj An `sf` object.
+#' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
 #'
-#' @return A matix.
+#' @return A matrix.
 #' @export
 #'
 #' @examples
@@ -118,4 +122,36 @@ sf_distance_matrix = \(sfj){
   }
 
   return(as.matrix(distij))
+}
+
+#' @title generates wgs84 utm projection epsg coding character
+#' @description
+#' Generates a utm projection epsg coding character corresponding to an `sfj` object
+#' under the WGS84 spatial reference.
+#' @details
+#' For more details, please refer to <https://zhuanlan.zhihu.com/p/670055831>.
+#'
+#' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
+#'
+#' @return A character.
+#' @export
+#'
+#' @examples
+#' library(sf)
+#' snnu = read_sf(system.file('extdata/snnu.geojson',package = 'sdsfun'))
+#' sf_utm_proj_wgs84(snnu)
+#'
+sf_utm_proj_wgs84 = \(sfj){
+  if (!inherits(sfj,'sf')){
+    sfj = sf::st_as_sf(sfj)
+  }
+  longlat = dplyr::if_else(sf::st_is_longlat(sfj),TRUE,FALSE,FALSE)
+  if (!longlat){
+    stop("The spatial reference of the input `sfj` object needs to be in the WGS84 geographic coordinate system.")
+  } else {
+    sf_ext = as.double(sf::st_bbox(sfj))
+    center_lon = mean(sf_ext[c(1,3)])
+    utm_zone = floor((center_lon + 180) / 6) + 1
+    return(paste0("EPSG:326",utm_zone))
+  }
 }

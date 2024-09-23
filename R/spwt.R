@@ -2,7 +2,7 @@
 #' @noRd
 .check_spwt = \(sfj){
   if (!inherits(sfj,'sf')){
-    stop('sfj must be an sf object')
+    sfj = sf::st_as_sf(sfj)
   }
 
   if (!(sf_geometry_type(sfj) %in% c('point','multipoint',
@@ -25,7 +25,7 @@
     sfj = sf_voronoi_diagram(sfj)
   }
 
-  sfj_nb = spdep::poly2nb(sfj,queen = queen)
+  suppressWarnings({sfj_nb = spdep::poly2nb(sfj,queen = queen)})
   if (order >= 2) {
     sfj_nb_highorder = spdep::nblag(sfj_nb, order)
     if (cumulate) {
@@ -61,7 +61,7 @@
 
   longlat = dplyr::if_else(sf::st_is_longlat(sfj),TRUE,FALSE,FALSE)
 
-  nb_knn = spdep::knearneigh(coords,k = k,longlat = longlat)
+  suppressWarnings({nb_knn = spdep::knearneigh(coords,k = k,longlat = longlat)})
   sfj_nb = spdep::knn2nb(nb_knn)
 
   sfj_wt = spdep::nb2mat(sfj_nb, style = style,
@@ -95,11 +95,15 @@
   if (is.null(k)) {k = 1}
 
   if (is.null(bandwidth)){
+    suppressWarnings({
     k1 = spdep::knn2nb(spdep::knearneigh(coords,k = k,longlat = longlat))
+    })
     bandwidth = max(unlist(spdep::nbdists(k1,coords,longlat = longlat)))
   }
 
+  suppressWarnings({
   kernelnb = spdep::dnearneigh(coords, 0, bandwidth, longlat = longlat)
+  })
   kernelnb = spdep::include.self(kernelnb)
   kerneldist = spdep::nbdists(kernelnb,coords,longlat = longlat)
 
@@ -160,7 +164,9 @@
     bandwidth = max(unlist(spdep::nbdists(k1,coords,longlat = longlat)))
   }
 
+  suppressWarnings({
   kernelnb = spdep::dnearneigh(coords, 0, bandwidth, longlat = longlat)
+  })
   kerneldist = spdep::nbdists(kernelnb,coords,longlat = longlat)
   kernelwt = lapply(kerneldist, \(x) 1 / x ^ power)
   sfj_wt = spdep::nb2mat(kernelnb, glist = kernelwt,
