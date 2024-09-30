@@ -1,3 +1,39 @@
+#' construct neighbours list
+#' @note
+#' When `k` is set to a positive value, using K-Nearest Neighbor
+#'
+#' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
+#' @param queen (optional) if `TRUE`, using queen contiguity, otherwise rook contiguity.
+#' Default is `TRUE`.
+#' @param k (optional) The number of nearest neighbours. Ignore this parameter when not
+#' using distance based neighbours.
+#' @param order (optional) The order of the adjacency object. Default is `1`.
+#' @param cumulate (optional) Whether to accumulate adjacency objects. Default is `TRUE`.
+#'
+#' @return A neighbours list with class `nb`
+#' @export
+#'
+#' @examples
+#' library(sf)
+#' pts = read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
+#'
+#' nb1 = spdep_nb(pts, k = 6)
+#' nb2 = spdep_nb(pts, queen = TRUE)
+#' nb3 = spdep_nb(pts, queen = FALSE, order = 2)
+#'
+spdep_nb = \(sfj,
+             queen = TRUE,
+             k = NULL,
+             order = 1L,
+             cumulate = TRUE){
+  if (is.null(k)){
+    spnb = .spdep_polynb(sfj,queen,order,cumulate)
+  } else {
+    spnb = .spdep_knnnb(sfj,k)
+  }
+  return(spnb)
+}
+
 #' @title constructs spatial weight matrices based on contiguity
 #' @description
 #' Constructs spatial weight matrices based on contiguity via `spdep` package.
@@ -22,11 +58,11 @@
 #'
 #' @examples
 #' library(sf)
-#' pts = read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
+#' gzma = read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
 #'
-#' wt1 = spdep_contiguity_swm(pts, k = 6, style = 'B')
-#' wt2 = spdep_contiguity_swm(pts, queen = TRUE, style = 'B')
-#' wt3 = spdep_contiguity_swm(pts, queen = FALSE, order = 2, style = 'B')
+#' wt1 = spdep_contiguity_swm(gzma, k = 6, style = 'B')
+#' wt2 = spdep_contiguity_swm(gzma, queen = TRUE, style = 'B')
+#' wt3 = spdep_contiguity_swm(gzma, queen = FALSE, order = 2, style = 'B')
 #'
 spdep_contiguity_swm = \(sfj,
                          queen = TRUE,
@@ -114,4 +150,47 @@ spdep_distance_swm = \(sfj,
     spdep_wt = .spwt_kernel_weight(sfj,bandwidth,k,kernel,style,zero.policy)
   }
   return(spdep_wt)
+}
+
+#' @title spatial c(k)luster analysis by tree edge removal
+#' @description
+#' SKATER forms clusters by spatially partitioning data that has similar values for features of interest.
+#'
+#' @param sfj An `sf` object of observation data. Please ensure that the attribute columns are included
+#' in the SKATER analysis.
+#' @param k (optional) The number of clusters. Default is `6`.
+#' @param nb (optional) A neighbours list with class nb. If the input `nb` is NULL, it will be constructed
+#' automatically using `spdep_nb()`.
+#' @param ini (optional) The initial node in the minimal spanning tree. Defaul is `5`.
+#' @param ... (optional) Other parameters passed to spdep::skater().
+#'
+#' @return A numeric vector of clusters.
+#' @export
+#'
+#' @examples
+#' library(sf)
+#' gzma = read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
+#' gzma_c = spdep_skater(gzma,8)
+#' gzma$group = gzma_c
+#' plot(gzma["group"])
+#'
+spdep_skater = \(sfj,
+                 k = 6,
+                 nb = NULL,
+                 ini = 5,
+                 ...){
+  .check_spwt(sfj)
+
+  if (is.null(nb)) {
+    nb = spdep_nb(sfj,queen = TRUE)
+  }
+
+  dpad = as.matrix(sf::st_drop_geometry(sfj))
+  dpad = apply(dpad,2,normalize_vector)
+  lcosts = spdep::nbcosts(nb, dpad)
+  nbw = spdep::nb2listw(nb, glist = lcosts, style = "B")
+  mst = spdep::mstree(nbw,ini)
+  res = spdep::skater(mst[,1:2], dpad, k-1, ...)
+
+  return(res$groups)
 }
