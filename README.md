@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sdsfun <img src="man/figures/logo.png" align="right" height="120"/>
+# sdsfun <a href="https://stscl.github.io/sdsfun/"><img src="man/figures/logo.png" align="right" height="139" alt="sdsfun website" /></a>
 
 <!-- badges: start -->
 
@@ -36,7 +36,5 @@ install.packages('sdsfun',
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("stscl/sdsfun",
-                         build_vignettes = TRUE,
-                         dep = TRUE)
+devtools::install_github("stscl/sdsfun", dep = TRUE)
 ```

@@ -194,3 +194,29 @@ spdep_skater = \(sfj,
 
   return(res$groups)
 }
+
+#' spatial linear models selection
+#'
+#' @param formula A formula for linear regression model.
+#' @param data An `sf` object of observation data.
+#' @param listw (optional) A listw. See `spdep::mat2listw()` and `spdep::nb2listw()`
+#' for details.
+#'
+#' @return A list
+#' @export
+#'
+#' @examples
+#' boston_506 = sf::read_sf(system.file("shapes/boston_tracts.shp", package = "spData"))
+#' spdep_lmtest(log(median) ~ CRIM + ZN + INDUS + CHAS, boston_506)
+#'
+spdep_lmtest = \(formula,data,listw = NULL){
+  .check_spwt(data)
+  if (is.null(listw)) {
+    nb = sdsfun::spdep_nb(data)
+    listw = spdep::nb2listw(nb, style = "W", zero.policy = TRUE)
+  }
+  data = sf::st_drop_geometry(data)
+  lm1 = stats::lm(formula,data)
+  suppressWarnings({res = spdep::lm.RStests(lm1,listw,test = "all")})
+  return(summary(res))
+}

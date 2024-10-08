@@ -6,9 +6,9 @@
 #' @export
 #'
 #' @examples
-#' dummy_vector(c(1,1,3,2,4,6))
+#' dummy_vec(c(1,1,3,2,4,6))
 #'
-dummy_vector = \(x){
+dummy_vec = \(x){
   x = as.integer(x)
   return(DummyVar(x))
 }
@@ -27,9 +27,8 @@ dummy_vector = \(x){
 dummy_tbl = \(tbl){
   new_tblname = purrr::map2(tbl,
                             colnames(tbl),
-                            \(.tbl,.tblname) paste0(.tblname,
-                                                    "_",
-                                                    Runique(.tbl)))
+                            \(.tbl,.tblname) paste0(.tblname, "_",
+                                                    seq_along(RcppUnique(.tbl)[-1])))
   dummytbl = DummyMat(as.matrix(tbl))
   colnames(dummytbl) = unlist(new_tblname)
   return(tibble::as_tibble(dummytbl))

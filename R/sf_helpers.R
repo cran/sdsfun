@@ -86,6 +86,36 @@ sf_voronoi_diagram = \(sfj){
   return(sfj_voronoi)
 }
 
+#' @title extract locations
+#' @description
+#' Extract locations of sf objects.
+#'
+#' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
+#'
+#' @return A matrix.
+#' @export
+#'
+#' @examples
+#' library(sf)
+#' pts = read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
+#' sf_coordinates(pts)
+#'
+sf_coordinates = \(sfj){
+  .check_spwt(sfj)
+
+  if (sf_geometry_type(sfj) %in% c('multipoint','multipolygon')){
+    suppressWarnings({sfj = sf::st_point_on_surface(sfj)})
+  } else if (sf_geometry_type(sfj) == 'polygon') {
+    suppressWarnings({sfj = sf::st_centroid(sfj)})
+  }
+
+  coords = sfj %>%
+    sf::st_coordinates() %>%
+    {.[,c('X','Y')]}
+
+  return(as.matrix(coords))
+}
+
 #' @title generates distance matrix
 #' @description
 #' Generates distance matrix for sf object
@@ -102,25 +132,13 @@ sf_voronoi_diagram = \(sfj){
 #' pts_distm[1:5,1:5]
 #'
 sf_distance_matrix = \(sfj){
-  .check_spwt(sfj)
-
-  if (sf_geometry_type(sfj) %in% c('multipoint','multipolygon')){
-    suppressWarnings({sfj = sf::st_point_on_surface(sfj)})
-  } else if (sf_geometry_type(sfj) == 'polygon') {
-    suppressWarnings({sfj = sf::st_centroid(sfj)})
-  }
-
-  coords = sfj %>%
-    sf::st_coordinates() %>%
-    {.[,c('X','Y')]}
-
+  coords = sf_coordinates(sfj)
   longlat = dplyr::if_else(sf::st_is_longlat(sfj),TRUE,FALSE,FALSE)
   if (longlat) {
     distij = stats::as.dist(geosphere::distm(coords))
   } else {
     distij = stats::dist(as.data.frame(coords))
   }
-
   return(as.matrix(distij))
 }
 
@@ -129,7 +147,7 @@ sf_distance_matrix = \(sfj){
 #' Generates a utm projection epsg coding character corresponding to an `sfj` object
 #' under the WGS84 spatial reference.
 #' @details
-#' For more details, please refer to <https://zhuanlan.zhihu.com/p/670055831>.
+#' See <https://zhuanlan.zhihu.com/p/670055831> for more details.
 #'
 #' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
 #'
