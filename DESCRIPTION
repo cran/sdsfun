@@ -1,14 +1,13 @@
 Package: sdsfun
 Title: Spatial Data Science Complementary Features
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: 
     person(given = "Wenbo", family = "Lv",
            email = "lyu.geosocial@gmail.com", 
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0002-6003-3800"))
-Description: Wrapping and supplementing commonly used functions in the R ecosystem related 
-             to spatial data science, while serving as a basis for other packages maintained 
-             by Wenbo Lv.
+Description: Wrapping and supplementing commonly used functions in the R ecosystem related to spatial data science, 
+             while serving as a basis for other packages maintained by Wenbo Lv.
 License: GPL-3
 Encoding: UTF-8
 URL: https://stscl.github.io/sdsfun/, https://github.com/stscl/sdsfun
@@ -21,8 +20,8 @@ Suggests: ggplot2, Rcpp, RcppArmadillo, spData, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LinkingTo: Rcpp, RcppArmadillo
 NeedsCompilation: yes
-Packaged: 2024-10-08 06:16:11 UTC; dell
+Packaged: 2024-10-16 07:54:20 UTC; dell
 Author: Wenbo Lv [aut, cre, cph] (<https://orcid.org/0009-0002-6003-3800>)
 Maintainer: Wenbo Lv <lyu.geosocial@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-10-08 06:40:01 UTC
+Date/Publication: 2024-10-16 09:20:02 UTC

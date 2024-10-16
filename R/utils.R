@@ -60,6 +60,10 @@ discretize_vector = \(x, n, method = 'natural',
                       breakpoint = NULL,
                       sampleprob = 0.15,
                       seed = 123456789){
+  if (any(inherits(x,'factor'),inherits(x,'character'))){
+    return(as.integer(as.factor(x)))
+  }
+
   if (method %in% c("sd","equal","geometric","quantile")){
     res = eval(parse(text = paste0(method,"Disc(x,n)")))
   } else if (method == "manual") {
@@ -74,5 +78,37 @@ discretize_vector = \(x, n, method = 'natural',
   } else {
     stop("Only support those methods: sd,equal,quantile,geometric,natural and manual.")
   }
+  return(res)
+}
+
+#' get variable names in a formula and data
+#'
+#' @param formula A formula.
+#' @param data A `data.frame`, `tibble` or `sf` object of observation data.
+#'
+#' @return A list.
+#' \describe{
+#' \item{\code{yname}}{Independent variable name}
+#' \item{\code{xname}}{Dependent variable names}
+#' }
+#' @export
+#'
+#' @examples
+#' boston_506 = sf::read_sf(system.file("shapes/boston_tracts.shp", package = "spData"))
+#' formula_varname(median ~ CRIM + ZN + INDUS + CHAS, boston_506)
+#' formula_varname(median ~ ., boston_506)
+#'
+formula_varname = \(formula,data){
+  formula = stats::as.formula(formula)
+  formula.vars = all.vars(formula)
+  if (inherits(data,'sf')){
+    data = sf::st_drop_geometry(data)
+  }
+  if (formula.vars[2] != "."){
+    data = dplyr::select(data,dplyr::all_of(formula.vars))
+  }
+  yname = formula.vars[1]
+  xname = names(data)[-which(names(data) == yname)]
+  res = list("yname" = yname, "xname" = xname)
   return(res)
 }

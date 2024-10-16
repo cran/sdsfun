@@ -1,6 +1,6 @@
-26968cba9f5513136f05410a6953e134 *DESCRIPTION
-36a9711c20893d420b1555eebe52ee64 *NAMESPACE
-8558f98e978ee7e047fe1d28f9c83a1d *NEWS.md
+326eab8a364772fe66e17af09ccdf4c5 *DESCRIPTION
+c104bd9ddcb9c3214a4e521692624a95 *NAMESPACE
+fc433c2bc9476964fbe9f8d1cc3bd4ff *NEWS.md
 e0575ced66601f188edb1bfdadd2e9fe *R/RcppExports.R
 43d59a74c2c0874f78c2b85638753fa7 *R/dummy_var.R
 a03fef194747cf4defb5bb39cc0a3843 *R/fuzzyoverlay.R
@@ -14,7 +14,7 @@ ec2665f21ad8d63055ed63dc0dd97c5e *R/spdep_helpers.R
 eae5fa725de42be139a54aa91ef3cde4 *R/spvar.R
 f2fbb0335543c08b705fc8b983308c8c *R/spwt.R
 9572052ad660c653057857f77f5899d1 *R/ssh_test.R
-6ad61381d07a5a47788184d872398558 *R/utils.R
+88f2aebe9c89f1ba658784f9b3306059 *R/utils.R
 42b3f3ffa9e96296434b82f3989f10b1 *R/zzz.R
 589c9ed8d213a00f9d1c652ae46d7902 *README.md
 7191dd10303a0550e68d21e7a1c6d948 *inst/extdata/gzma.gpkg
@@ -23,6 +23,7 @@ f2fbb0335543c08b705fc8b983308c8c *R/spwt.R
 3847eb3eda7ff0047488b90c500ec061 *man/dummy_tbl.Rd
 40da67a157d5b32975f84bb0f5ba2cee *man/dummy_vec.Rd
 9ccae545ad528c1c8e2cb44a84e254f5 *man/figures/logo.png
+11062b7e93e0f206cc801c91be99781e *man/formula_varname.Rd
 94f2928ccb346700d5bede8965072100 *man/fuzzyoverlay.Rd
 767e086e551d7b485cc8e25266fa4037 *man/inverse_distance_swm.Rd
 135e6f42d64bc9847aeb2e8e5d28963e *man/loess_optnum.Rd
