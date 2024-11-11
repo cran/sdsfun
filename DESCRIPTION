@@ -1,6 +1,6 @@
 Package: sdsfun
 Title: Spatial Data Science Complementary Features
-Version: 0.4.1
+Version: 0.4.2
 Authors@R: 
     person(given = "Wenbo", family = "Lv",
            email = "lyu.geosocial@gmail.com", 
@@ -20,8 +20,8 @@ Suggests: ggplot2, Rcpp, RcppArmadillo, spData, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LinkingTo: Rcpp, RcppArmadillo
 NeedsCompilation: yes
-Packaged: 2024-10-16 07:54:20 UTC; dell
+Packaged: 2024-11-11 15:09:16 UTC; dell
 Author: Wenbo Lv [aut, cre, cph] (<https://orcid.org/0009-0002-6003-3800>)
 Maintainer: Wenbo Lv <lyu.geosocial@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-10-16 09:20:02 UTC
+Date/Publication: 2024-11-11 15:50:03 UTC

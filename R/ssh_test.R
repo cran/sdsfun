@@ -5,8 +5,8 @@
 #' This is a `C++` implementation of the `factor_detector` function in `gdverse` package.
 #'
 #' @param y Variable Y, continuous numeric vector.
-#' @param hs Spatial partitioning or classification of each explanatory variable.
-#' `factor`, `character`, `integer` or `data.frame`, `tibble`.
+#' @param hs Spatial stratification or classification of each explanatory variable.
+#' `factor`, `character`, `integer` or `data.frame`, `tibble` and `sf` object.
 #'
 #' @return A `tibble`
 #' @export
@@ -16,8 +16,10 @@
 #'
 ssh_test = \(y,hs){
   if (inherits(hs,"data.frame")) {
-    hs = dplyr::mutate(hs,dplyr::across(dplyr::everything(),
-                                        \(.x) as.integer(as.factor(.x))))
+    if (inherits(hs,"sf")) {
+      hs = sf::st_drop_geometry(hs)
+    }
+    hs = sdsfun::tbl_all2int(hs)
     qvs = purrr::map(hs,\(.h) GDFactorQ(y,.h))
     qv = purrr::map_dbl(qvs,\(.qv) .qv[[1]])
     pv = purrr::map_dbl(qvs,\(.qv) .qv[[2]])
