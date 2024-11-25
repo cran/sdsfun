@@ -49,6 +49,10 @@ MI_vec <- function(x, W, alternative = "greater", symmetrize = FALSE) {
     .Call(`_sdsfun_MI_vec`, x, W, alternative, symmetrize)
 }
 
+RcppHClustGeoMat <- function(D0, D1, alpha, scale = TRUE, wt_ = NULL) {
+    .Call(`_sdsfun_RcppHClustGeoMat`, D0, D1, alpha, scale, wt_)
+}
+
 RcppJenksBreaks <- function(x, n_classes, is_sorted = FALSE) {
     .Call(`_sdsfun_RcppJenksBreaks`, x, n_classes, is_sorted)
 }
@@ -59,6 +63,10 @@ PrintGlobalMoranI <- function(df) {
 
 RcppUnique <- function(x) {
     .Call(`_sdsfun_RcppUnique`, x)
+}
+
+CalcSPADEPSD <- function(y, h, wt) {
+    .Call(`_sdsfun_CalcSPADEPSD`, y, h, wt)
 }
 
 RcppSpatialVariance <- function(x, wt) {

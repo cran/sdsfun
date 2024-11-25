@@ -8,8 +8,7 @@
 #' @export
 #'
 #' @examples
-#' library(sf)
-#' gzma = read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
+#' gzma = sf::read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
 #' sf_geometry_name(gzma)
 #'
 sf_geometry_name = \(sfj){
@@ -27,8 +26,7 @@ sf_geometry_name = \(sfj){
 #' @export
 #'
 #' @examples
-#' library(sf)
-#' gzma = read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
+#' gzma = sf::read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
 #' sf_geometry_type(gzma)
 #'
 sf_geometry_type = \(sfj){
@@ -52,8 +50,7 @@ sf_geometry_type = \(sfj){
 #' @export
 #'
 #' @examples
-#' library(sf)
-#' pts = read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
+#' pts = sf::read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
 #' pts_v = sf_voronoi_diagram(pts)
 #'
 #' library(ggplot2)
@@ -96,8 +93,7 @@ sf_voronoi_diagram = \(sfj){
 #' @export
 #'
 #' @examples
-#' library(sf)
-#' pts = read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
+#' pts = sf::read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
 #' sf_coordinates(pts)
 #'
 sf_coordinates = \(sfj){
@@ -126,8 +122,7 @@ sf_coordinates = \(sfj){
 #' @export
 #'
 #' @examples
-#' library(sf)
-#' pts = read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
+#' pts = sf::read_sf(system.file('extdata/pts.gpkg',package = 'sdsfun'))
 #' pts_distm = sf_distance_matrix(pts)
 #' pts_distm[1:5,1:5]
 #'
@@ -146,8 +141,6 @@ sf_distance_matrix = \(sfj){
 #' @description
 #' Generates a utm projection epsg coding character corresponding to an `sfj` object
 #' under the WGS84 spatial reference.
-#' @details
-#' See <https://zhuanlan.zhihu.com/p/670055831> for more details.
 #'
 #' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
 #'
@@ -155,8 +148,7 @@ sf_distance_matrix = \(sfj){
 #' @export
 #'
 #' @examples
-#' library(sf)
-#' gzma = read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
+#' gzma = sf::read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun'))
 #' sf_utm_proj_wgs84(gzma)
 #'
 sf_utm_proj_wgs84 = \(sfj){
@@ -173,4 +165,47 @@ sf_utm_proj_wgs84 = \(sfj){
     utm_zone = floor((center_lon + 180) / 6) + 1
     return(paste0("EPSG:326",utm_zone))
   }
+}
+
+#' @title generates cgcs2000 Gauss-Kruger projection epsg coding character
+#' @description
+#' Generates a Gauss-Kruger projection epsg coding character corresponding to an `sfj` object
+#' under the CGCS2000 spatial reference.
+#'
+#' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
+#' @param degree (optional) `3`-degree or `6`-degree zonal projection, default is `6L`.
+#'
+#' @return A character.
+#' @export
+#'
+#' @examples
+#' gzma = sf::read_sf(system.file('extdata/gzma.gpkg',package = 'sdsfun')) |>
+#'   sf::st_transform(4490)
+#' sf_gk_proj_cgcs2000(gzma,3)
+#' sf_gk_proj_cgcs2000(gzma,6)
+#'
+sf_gk_proj_cgcs2000 = \(sfj,degree = 6L){
+  if (!inherits(sfj,'sf')){
+    sfj = sf::st_as_sf(sfj)
+  }
+  crs_info = sf::st_crs(sfj)
+  iscgcs2000 = dplyr::if_else(crs_info$epsg == 4490,TRUE,FALSE,FALSE)
+  if (!iscgcs2000){
+    stop("The spatial reference of the input `sfj` object needs to be the CGCS2000 geographic coordinate system.")
+  }
+
+  sf_ext = as.double(sf::st_bbox(sfj))
+  center_lon = mean(sf_ext[c(1,3)])
+  if (degree == 6L) {
+    gk_zone = floor((center_lon + 6) / 6)
+    GKCenterLong = gk_zone * 6 - 3
+    epsgcode = seq(4502,4512,by = 1)[which(seq(75,135,by = 6) == GKCenterLong)]
+  } else if (degree == 3L) {
+    gk_zone = floor((center_lon + 1.5) / 3)
+    GKCenterLong = gk_zone * 3
+    epsgcode = seq(4534,4554,by = 1)[which(seq(75,135,by = 3) == GKCenterLong)]
+  } else {
+    stop("The degree only be `3` or `6`!")
+  }
+  return(paste0("EPSG:",epsgcode))
 }
