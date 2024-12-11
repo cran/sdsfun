@@ -79,3 +79,36 @@ tbl_all2int = \(tbl){
 check_tbl_na = \(tbl){
   return(any(is.na(tbl)))
 }
+
+#' convert xyz tbl to matrix
+#'
+#' @param tbl A `tibble`,`data.frame` or `sf` object.
+#' @param x (optional) The x-axis coordinates column number, default is `1`.
+#' @param y (optional) The y-axis coordinates column number, default is `2`.
+#' @param z (optional) The z (attribute) coordinates column number, default is `3`.
+#'
+#' @return A `list`.
+#' \describe{
+#'  \item{z_attrs_matrix}{A matrix with attribute information.}
+#'  \item{x_coords_matrix}{A matrix with the x-axis coordinates.}
+#'  \item{y_coords_matrix}{A matrix with the y-axis coordinates.}
+#' }
+#' @export
+#'
+#' @examples
+#' set.seed(42)
+#' lon = rep(1:3,each = 3)
+#' lat = rep(1:3,times = 3)
+#' zattr = rnorm(9, mean = 10, sd = 1)
+#' demodf = data.frame(x = lon, y = lat, z = zattr)
+#' demodf
+#' tbl_xyz2mat(demodf)
+#'
+tbl_xyz2mat = \(tbl,x = 1, y = 2, z = 3){
+  if (inherits(tbl,'sf')){
+    tbl = sf::st_drop_geometry(tbl)
+  }
+  tbl = tbl[,c(x,y,z)]
+  return(Tbl2Mat(as.matrix(tbl[,c(x,y)]),
+                 tbl[,z,drop = TRUE]))
+}

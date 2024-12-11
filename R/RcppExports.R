@@ -57,6 +57,14 @@ RcppJenksBreaks <- function(x, n_classes, is_sorted = FALSE) {
     .Call(`_sdsfun_RcppJenksBreaks`, x, n_classes, is_sorted)
 }
 
+LinearRegression <- function(y, X) {
+    .Call(`_sdsfun_LinearRegression`, y, X)
+}
+
+LinearTrendRM <- function(y, X) {
+    .Call(`_sdsfun_LinearTrendRM`, y, X)
+}
+
 PrintGlobalMoranI <- function(df) {
     .Call(`_sdsfun_PrintGlobalMoranI`, df)
 }
@@ -71,5 +79,9 @@ CalcSPADEPSD <- function(y, h, wt) {
 
 RcppSpatialVariance <- function(x, wt) {
     .Call(`_sdsfun_RcppSpatialVariance`, x, wt)
+}
+
+Tbl2Mat <- function(coords, z_values) {
+    .Call(`_sdsfun_Tbl2Mat`, coords, z_values)
 }
 
