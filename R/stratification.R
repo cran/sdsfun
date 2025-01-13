@@ -61,8 +61,8 @@ discretize_vector = \(x, n, method = 'natural',
 #' @param wt (optional) Vector with the weights of the observations. By default, `wt` is `NULL`.
 #' @param ... (optional) Other arguments passed to `stats::dist()`.
 #'
-#' @return A `vector` with grouped memberships if `n` are `scalar`, otherwise a `matrix` with grouped
-#' memberships is returned where each column corresponds to the elements of `n`, respectively.
+#' @return The grouped membership: a `vector` if `n` is a scalar, a `matrix` (columns correspond to elements
+#' of `n`) if not.
 #' @export
 #'
 #' @examples
@@ -85,6 +85,7 @@ hclustgeo_disc = \(data, n, alpha = 0.5, D1 = NULL,
   }
   D0 = as.matrix(stats::dist(data,...))
   deltadist = stats::as.dist(RcppHClustGeoMat(D0,D1,alpha,scale,wt))
-  resh = stats::hclust(deltadist,method=hclustm,members=wt)
+  resh = stats::hclust(deltadist,method = hclustm,members = wt)
+
   return(stats::cutree(resh,k = n))
 }

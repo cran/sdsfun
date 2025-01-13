@@ -37,8 +37,8 @@ please see \code{stats::hclust()}.}
 \item{...}{(optional) Other arguments passed to \code{stats::dist()}.}
 }
 \value{
-A \code{vector} with grouped memberships if \code{n} are \code{scalar}, otherwise a \code{matrix} with grouped
-memberships is returned where each column corresponds to the elements of \code{n}, respectively.
+The grouped membership: a \code{vector} if \code{n} is a scalar, a \code{matrix} (columns correspond to elements
+of \code{n}) if not.
 }
 \description{
 hierarchical clustering with spatial soft constraints
