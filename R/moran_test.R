@@ -1,14 +1,4 @@
-#' @title test global spatial autocorrelation
-#' @description
-#' Spatial autocorrelation test based on global moran index.
-#' @note
-#' This is a `C++` implementation of the `MI.vec` function in `spfilteR` package,
-#' and embellishes the console output.
-#'
-#' The return result of this function is actually a `list`, please access the result
-#' tibble using `$result`.
-#'
-#' The non-numeric columns of the attribute columns in `sfj` are ignored.
+#' @title global spatial autocorrelation test
 #'
 #' @param sfj An `sf` object or can be converted to `sf` by `sf::st_as_sf()`.
 #' @param wt (optional) Spatial weight matrix. Must be a `matrix` class. If `wt` is not
@@ -18,8 +8,7 @@
 #' @param symmetrize (optional) Whether or not to symmetrize the asymmetrical spatial weight matrix
 #' \emph{\strong{wt}} by: 1/2 * (\emph{\strong{wt}} + \emph{\strong{wt}}'). Default is `FALSE`.
 #'
-#' @return A list with `moran_test` class and result stored on the `result` tibble.
-#' Which contains the following information for each variable:
+#' @return A list utilizing a `result` tibble to store the following information for each variable:
 #' \describe{
 #' \item{\code{MoranI}}{observed value of the Moran coefficient}
 #' \item{\code{EI}}{expected value of Moran's I}

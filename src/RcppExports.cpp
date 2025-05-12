@@ -11,6 +11,33 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// RcppPearsonCor
+Rcpp::NumericVector RcppPearsonCor(const Rcpp::NumericVector& vec1, const Rcpp::NumericVector& vec2, double level);
+RcppExport SEXP _sdsfun_RcppPearsonCor(SEXP vec1SEXP, SEXP vec2SEXP, SEXP levelSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec2(vec2SEXP);
+    Rcpp::traits::input_parameter< double >::type level(levelSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppPearsonCor(vec1, vec2, level));
+    return rcpp_result_gen;
+END_RCPP
+}
+// RcppPartialCor
+Rcpp::NumericVector RcppPartialCor(const Rcpp::NumericVector& vec1, const Rcpp::NumericVector& vec2, const Rcpp::NumericMatrix& conds, double level);
+RcppExport SEXP _sdsfun_RcppPartialCor(SEXP vec1SEXP, SEXP vec2SEXP, SEXP condsSEXP, SEXP levelSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec1(vec1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec2(vec2SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type conds(condsSEXP);
+    Rcpp::traits::input_parameter< double >::type level(levelSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppPartialCor(vec1, vec2, conds, level));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sdDisc
 Rcpp::IntegerVector sdDisc(const arma::vec& x, double n);
 RcppExport SEXP _sdsfun_sdDisc(SEXP xSEXP, SEXP nSEXP) {
@@ -97,6 +124,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// htDisc
+Rcpp::IntegerVector htDisc(const arma::vec& x, double thr);
+RcppExport SEXP _sdsfun_htDisc(SEXP xSEXP, SEXP thrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type thr(thrSEXP);
+    rcpp_result_gen = Rcpp::wrap(htDisc(x, thr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // DummyVar
 Rcpp::IntegerMatrix DummyVar(Rcpp::IntegerVector x);
 RcppExport SEXP _sdsfun_DummyVar(SEXP xSEXP) {
@@ -116,6 +155,63 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type mat(matSEXP);
     rcpp_result_gen = Rcpp::wrap(DummyMat(mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// RcppEntropy_Disc
+double RcppEntropy_Disc(const Rcpp::NumericVector& vec, double base, bool NA_rm);
+RcppExport SEXP _sdsfun_RcppEntropy_Disc(SEXP vecSEXP, SEXP baseSEXP, SEXP NA_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec(vecSEXP);
+    Rcpp::traits::input_parameter< double >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< bool >::type NA_rm(NA_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppEntropy_Disc(vec, base, NA_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// RcppJoinEntropy_Disc
+double RcppJoinEntropy_Disc(const Rcpp::NumericMatrix& mat, const Rcpp::IntegerVector& columns, double base, bool NA_rm);
+RcppExport SEXP _sdsfun_RcppJoinEntropy_Disc(SEXP matSEXP, SEXP columnsSEXP, SEXP baseSEXP, SEXP NA_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type columns(columnsSEXP);
+    Rcpp::traits::input_parameter< double >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< bool >::type NA_rm(NA_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppJoinEntropy_Disc(mat, columns, base, NA_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// RcppMutualInformation_Disc
+double RcppMutualInformation_Disc(const Rcpp::NumericMatrix& mat, const Rcpp::IntegerVector& columns1, const Rcpp::IntegerVector& columns2, double base, bool NA_rm);
+RcppExport SEXP _sdsfun_RcppMutualInformation_Disc(SEXP matSEXP, SEXP columns1SEXP, SEXP columns2SEXP, SEXP baseSEXP, SEXP NA_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type columns1(columns1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type columns2(columns2SEXP);
+    Rcpp::traits::input_parameter< double >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< bool >::type NA_rm(NA_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppMutualInformation_Disc(mat, columns1, columns2, base, NA_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// RcppConditionalEntropy_Disc
+double RcppConditionalEntropy_Disc(const Rcpp::NumericMatrix& mat, const Rcpp::IntegerVector& target_columns, const Rcpp::IntegerVector& conditional_columns, double base, bool NA_rm);
+RcppExport SEXP _sdsfun_RcppConditionalEntropy_Disc(SEXP matSEXP, SEXP target_columnsSEXP, SEXP conditional_columnsSEXP, SEXP baseSEXP, SEXP NA_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type target_columns(target_columnsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type conditional_columns(conditional_columnsSEXP);
+    Rcpp::traits::input_parameter< double >::type base(baseSEXP);
+    Rcpp::traits::input_parameter< bool >::type NA_rm(NA_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppConditionalEntropy_Disc(mat, target_columns, conditional_columns, base, NA_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -158,7 +254,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppHClustGeoMat
-arma::mat RcppHClustGeoMat(const arma::mat& D0, const arma::mat& D1, double alpha, bool scale, Nullable<Rcpp::NumericVector> wt_);
+arma::mat RcppHClustGeoMat(const arma::mat& D0, const arma::mat& D1, double alpha, bool scale, Rcpp::Nullable<Rcpp::NumericVector> wt_);
 RcppExport SEXP _sdsfun_RcppHClustGeoMat(SEXP D0SEXP, SEXP D1SEXP, SEXP alphaSEXP, SEXP scaleSEXP, SEXP wt_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -167,7 +263,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type D1(D1SEXP);
     Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
     Rcpp::traits::input_parameter< bool >::type scale(scaleSEXP);
-    Rcpp::traits::input_parameter< Nullable<Rcpp::NumericVector> >::type wt_(wt_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type wt_(wt_SEXP);
     rcpp_result_gen = Rcpp::wrap(RcppHClustGeoMat(D0, D1, alpha, scale, wt_));
     return rcpp_result_gen;
 END_RCPP
@@ -270,6 +366,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_sdsfun_RcppPearsonCor", (DL_FUNC) &_sdsfun_RcppPearsonCor, 3},
+    {"_sdsfun_RcppPartialCor", (DL_FUNC) &_sdsfun_RcppPartialCor, 4},
     {"_sdsfun_sdDisc", (DL_FUNC) &_sdsfun_sdDisc, 2},
     {"_sdsfun_equalDisc", (DL_FUNC) &_sdsfun_equalDisc, 2},
     {"_sdsfun_geometricDisc", (DL_FUNC) &_sdsfun_geometricDisc, 2},
@@ -277,8 +375,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sdsfun_manualDisc", (DL_FUNC) &_sdsfun_manualDisc, 2},
     {"_sdsfun_ArmaJenksBreaks", (DL_FUNC) &_sdsfun_ArmaJenksBreaks, 3},
     {"_sdsfun_naturalDisc", (DL_FUNC) &_sdsfun_naturalDisc, 3},
+    {"_sdsfun_htDisc", (DL_FUNC) &_sdsfun_htDisc, 2},
     {"_sdsfun_DummyVar", (DL_FUNC) &_sdsfun_DummyVar, 1},
     {"_sdsfun_DummyMat", (DL_FUNC) &_sdsfun_DummyMat, 1},
+    {"_sdsfun_RcppEntropy_Disc", (DL_FUNC) &_sdsfun_RcppEntropy_Disc, 3},
+    {"_sdsfun_RcppJoinEntropy_Disc", (DL_FUNC) &_sdsfun_RcppJoinEntropy_Disc, 4},
+    {"_sdsfun_RcppMutualInformation_Disc", (DL_FUNC) &_sdsfun_RcppMutualInformation_Disc, 5},
+    {"_sdsfun_RcppConditionalEntropy_Disc", (DL_FUNC) &_sdsfun_RcppConditionalEntropy_Disc, 5},
     {"_sdsfun_CalcFactorQ", (DL_FUNC) &_sdsfun_CalcFactorQ, 2},
     {"_sdsfun_GDFactorQ", (DL_FUNC) &_sdsfun_GDFactorQ, 2},
     {"_sdsfun_MI_vec", (DL_FUNC) &_sdsfun_MI_vec, 4},
