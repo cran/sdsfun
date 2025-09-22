@@ -1,3 +1,11 @@
+# sdsfun 0.8.1
+
+* Loading `sdsfun` no longer initializes the RNG state (#59).
+
+* Fix misclassification of matrix inputs as vectors in `cor_test()` (#58).
+
+* Fix a deprecation warning emitted by Armadillo (#55).
+
 # sdsfun 0.8.0
 
 * Add `cor_test` for unified (partial) correlation testing (#49).

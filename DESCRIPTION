@@ -1,6 +1,6 @@
 Package: sdsfun
 Title: Spatial Data Science Complementary Features
-Version: 0.8.0
+Version: 0.8.1
 Authors@R: 
     person(given = "Wenbo", family = "Lv",
            email = "lyu.geosocial@gmail.com", 
@@ -12,7 +12,7 @@ License: GPL-3
 Encoding: UTF-8
 URL: https://stscl.github.io/sdsfun/, https://github.com/stscl/sdsfun
 BugReports: https://github.com/stscl/sdsfun/issues
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: R (>= 4.1.0)
 LinkingTo: Rcpp, RcppArmadillo
 Imports: dplyr, geosphere, magrittr, pander, purrr, sf, spdep, stats,
@@ -20,9 +20,9 @@ Imports: dplyr, geosphere, magrittr, pander, purrr, sf, spdep, stats,
 Suggests: ggplot2, Rcpp, RcppArmadillo, terra, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2025-05-12 14:21:14 UTC; 31809
+Packaged: 2025-09-22 09:05:25 UTC; 31809
 Author: Wenbo Lv [aut, cre, cph] (ORCID:
     <https://orcid.org/0009-0002-6003-3800>)
 Maintainer: Wenbo Lv <lyu.geosocial@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-05-12 14:50:02 UTC
+Date/Publication: 2025-09-22 10:30:02 UTC
